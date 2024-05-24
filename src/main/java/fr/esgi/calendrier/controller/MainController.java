@@ -2,8 +2,11 @@ package fr.esgi.calendrier.controller;
 
 import fr.esgi.calendrier.dto.UtilisateurDto;
 import fr.esgi.calendrier.mapper.UtilisateurMapper;
+import fr.esgi.calendrier.service.JourService;
 import fr.esgi.calendrier.service.UtilisateurService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +18,8 @@ public class MainController {
 
     private final UtilisateurService utilisateurService;
     private final UtilisateurMapper utilisateurMapper;
+
+    private final JourService jourService;
 
     @GetMapping("/register")
     public String showRegistrationForm(Model model) {
@@ -35,7 +40,12 @@ public class MainController {
     }
 
     @GetMapping("/")
-    public String home() {
+    public String home(
+            Model model,
+            @PageableDefault(size = 7) Pageable pageable
+    ) {
+        model.addAttribute("jours", jourService.findAll(pageable));
+
         return "index";
     }
 }
