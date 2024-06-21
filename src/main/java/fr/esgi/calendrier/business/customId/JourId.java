@@ -1,10 +1,9 @@
-package fr.esgi.calendrier.business;
+package fr.esgi.calendrier.business.customId;
 
 import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 import java.io.Serializable;
 import java.util.Objects;

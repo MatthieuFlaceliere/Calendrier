@@ -1,11 +1,15 @@
 package fr.esgi.calendrier.business;
 
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
+import fr.esgi.calendrier.business.customId.JourId;
+import fr.esgi.calendrier.business.customId.ReactionJourId;
+import jakarta.annotation.Nullable;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -14,6 +18,26 @@ import lombok.RequiredArgsConstructor;
 public class Jour {
     @EmbeddedId
     private JourId id;
+
+    @OneToOne()
+    @Nullable()
+    private Gif gif;
+
+    @Nullable()
+    private String legende;
+
+    @ManyToOne()
+    @Nullable()
+    private Utilisateur utilisateur;
+
+    @OneToMany()
+    @JoinColumns({
+            @JoinColumn(name = "jour", referencedColumnName = "jour"),
+            @JoinColumn(name = "mois", referencedColumnName = "mois")
+    })
+    private List<ReactionJour> reactions = new ArrayList<>();
+
+    private int points;
 
     public String date() {
         String jour = String.valueOf(id.getJour());

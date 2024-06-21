@@ -33,10 +33,29 @@
             <tbody>
             <tr th:each="jour:${jours}">
                 <th scope="row" th:text="${jour.date}"></th>
-                <td>Gif</td>
-                <td>Utilisateur</td>
                 <td>
-                    Réaction(s)
+                    <div th:if="${jour.gif != null}">
+                        <img alt="gif" height="100" th:src="${jour.gif.url}" width="100">
+                    </div>
+                    <div class="d-flex flex-column" th:unless="${jour.gif != null}">
+                        <span th:text="${jour.points} + ' points'"></span>
+                        <div>
+                            <a class="btn btn-link pe-1" th:href="@{'/gif/save/form/' + ${jour.date}}">Ajouter un gif
+                                distant</a>
+                            <a class="btn btn-link ps-1" th:href="@{'/form/gif-local/' + ${jour.date}}">Ajouter un gif
+                                local</a>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <span th:if="${jour.utilisateur != null}" th:text="${jour.utilisateur.nom}"></span>
+                </td>
+                <td>
+                    <div th:each="reaction:${jour.reactions}">
+                        <span th:text="${reaction.reaction.unicode}"></span>
+                        <span th:text="${reaction.utilisateur.nom}"></span>
+                        <br>
+                    </div>
                 </td>
             </tr>
             </tbody>
