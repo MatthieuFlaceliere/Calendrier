@@ -34,8 +34,9 @@
             <tr th:each="jour:${jours}">
                 <th scope="row" th:text="${jour.date}"></th>
                 <td>
-                    <div th:if="${jour.gif != null}">
-                        <img alt="gif" height="100" th:src="${jour.gif.url}" width="100">
+                    <div class="d-flex flex-column" th:if="${jour.gif != null}">
+                        <img alt="gif" class="m-auto" height="100" th:src="${jour.gif.url}" width="100">
+                        <span th:text="${jour.gif.legende}"></span>
                     </div>
                     <div class="d-flex flex-column" th:unless="${jour.gif != null}">
                         <span th:text="${jour.points} + ' points'"></span>
@@ -51,10 +52,13 @@
                     <span th:if="${jour.utilisateur != null}" th:text="${jour.utilisateur.nom}"></span>
                 </td>
                 <td>
-                    <div th:each="reaction:${jour.reactions}">
-                        <span th:text="${reaction.reaction.unicode}"></span>
-                        <span th:text="${reaction.utilisateur.nom}"></span>
-                        <br>
+                    <div class="d-flex flex-row justify-content-center" th:if="${jour.gif != null}">
+                        <a class="btn btn-outline-secondary mx-2"
+                           th:classappend="${jour.hasReactionByUser(reaction, #authentication.principal)} ? 'disabled btn-outline-success' : ''"
+                           th:each="reaction:${reactions}"
+                           th:href="@{'/jour/reaction/' + ${jour.date} + '/' + ${reaction.id}}"
+                           th:text="${reaction.getUnicode()} + ' x ' + ${jour.getNbReactionByReaction(reaction)}"
+                           th:title="${jour.getUsernamesByReaction(reaction)}"></a>
                     </div>
                 </td>
             </tr>
@@ -77,7 +81,6 @@
             </ul>
         </nav>
     </div>
-
 </div>
 </body>
 </html>

@@ -18,18 +18,20 @@ public class ReactionJourId implements Serializable {
     private JourId jourId;
     @Column(name = "utilisateur_id")
     private Long utilisateurId;
+    @Column(name = "reaction_id")
+    private Long reactionId;
 
     // Override equals and hashCode
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        ReactionJourId reactionJourId = (ReactionJourId) o;
-        return jourId.equals(reactionJourId.jourId) && utilisateurId.equals(reactionJourId.utilisateurId);
+        if (!(o instanceof ReactionJourId)) return false;
+        ReactionJourId that = (ReactionJourId) o;
+        return jourId.equals(that.jourId) && utilisateurId.equals(that.utilisateurId) && reactionId.equals(that.reactionId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(jourId, utilisateurId);
+        return Objects.hash(jourId, utilisateurId, reactionId);
     }
 }

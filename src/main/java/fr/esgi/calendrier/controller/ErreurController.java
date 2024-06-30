@@ -11,6 +11,7 @@ public class ErreurController implements ErrorController {
     @ExceptionHandler(Exception.class)
     public ModelAndView handleOtherExceptions(Exception ex) {
         ModelAndView modelAndView = new ModelAndView();
+        System.out.println("Erreur: " + ex);
         modelAndView.addObject("errorMessage", "Une erreur est survenue: " + ex.getMessage());
         modelAndView.setViewName("error");
         return modelAndView;

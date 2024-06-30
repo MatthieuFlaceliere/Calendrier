@@ -21,8 +21,7 @@ public class ReactionJourServiceImpl implements ReactionJourService {
     @Override
     public void addReactionJour(JourId jourId, Reaction reaction, Utilisateur utilisateur) {
         ReactionJour reactionJour = new ReactionJour();
-        reactionJour.setId(new ReactionJourId(jourId, utilisateur.getId()));
-        reactionJour.setReaction(reaction);
+        reactionJour.setId(new ReactionJourId(jourId, utilisateur.getId(), reaction.getId()));
         reactionJour.setUtilisateur(utilisateur);
         reactionJourRepository.save(reactionJour);
     }

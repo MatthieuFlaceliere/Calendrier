@@ -15,10 +15,8 @@ public class ReactionJour {
     @EmbeddedId
     private ReactionJourId id;
 
-    @OneToOne()
     @MapsId("utilisateurId")
+    @ManyToOne
+    @JoinColumn(name = "utilisateur_id", insertable = false, updatable = false)
     private Utilisateur utilisateur;
-
-    @ManyToOne()
-    private Reaction reaction;
 }

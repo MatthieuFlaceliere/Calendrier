@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 @Entity
 @Data
@@ -22,9 +23,6 @@ public class Jour {
     @OneToOne()
     @Nullable()
     private Gif gif;
-
-    @Nullable()
-    private String legende;
 
     @ManyToOne()
     @Nullable()
@@ -51,5 +49,26 @@ public class Jour {
         }
 
         return jour + "/" + mois;
+    }
+
+    public int getNbReactionByReaction(Reaction reaction) {
+        return (int) reactions.stream().filter(reactionJour -> reactionJour.getId().getReactionId().equals(reaction.getId())).count();
+    }
+
+    public List<String> getUsernamesByReaction(Reaction reaction) {
+        List<String> usernames = new ArrayList<>();
+        reactions.stream().filter(
+                reactionJour -> reactionJour.getId().getReactionId().equals(reaction.getId())
+        ).forEach(
+                reactionJour -> usernames.add(reactionJour.getUtilisateur().nom)
+        );
+        return usernames;
+    }
+
+    public boolean hasReactionByUser(Reaction reaction, Utilisateur utilisateur) {
+        boolean r = reactions.stream().anyMatch(
+                reactionJour -> reactionJour.getId().getReactionId().equals(reaction.getId()) && reactionJour.getId().getUtilisateurId().equals(utilisateur.getId())
+        );
+        return r;
     }
 }

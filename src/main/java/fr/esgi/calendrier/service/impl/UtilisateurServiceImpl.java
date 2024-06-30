@@ -4,6 +4,9 @@ import fr.esgi.calendrier.business.Utilisateur;
 import fr.esgi.calendrier.repository.UtilisateurRepository;
 import fr.esgi.calendrier.service.UtilisateurService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -40,5 +43,20 @@ public class UtilisateurServiceImpl implements UtilisateurService {
     @Override
     public Utilisateur findByEmail(String email) {
         return this.utilisateurRepository.findByEmail(email);
+    }
+
+    @Override
+    public Utilisateur subractPoints(Utilisateur utilisateur, int points) {
+        utilisateur.setSolde(utilisateur.getSolde() - points);
+        return this.utilisateurRepository.save(utilisateur);
+    }
+
+    @Override
+    public Utilisateur utilisateurFromSecurityContext(SecurityContext securityContext) {
+        Authentication authentication = securityContext.getAuthentication();
+        if (authentication == null) {
+            throw new UsernameNotFoundException("Utilisateur non trouvé");
+        }
+        return (Utilisateur) authentication.getPrincipal();
     }
 }
