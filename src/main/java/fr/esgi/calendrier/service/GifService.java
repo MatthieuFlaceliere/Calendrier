@@ -1,9 +1,14 @@
 package fr.esgi.calendrier.service;
 
 import fr.esgi.calendrier.business.Gif;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 public interface GifService {
-    public void save(Gif gif);
+    void save(Gif gif);
 
-    public Gif findById(Long id);
+    String store(MultipartFile file) throws IOException, IllegalArgumentException;
+
+    void deleteAllUploadingGif() throws IOException;
 }

@@ -11,13 +11,14 @@ import fr.esgi.calendrier.service.*;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 @AllArgsConstructor
@@ -39,7 +40,7 @@ public class MainController {
     }
 
     @PostMapping("/register")
-    public String registration(UtilisateurDto utilisateurDto, Model model) {
+    public String registration(UtilisateurDto utilisateurDto) {
         utilisateurService.save(utilisateurMapper.toEntity(utilisateurDto));
         return "redirect:/register?success";
     }
@@ -64,20 +65,23 @@ public class MainController {
     public String gifDistant(
             Model model,
             @PathVariable(value = "jour") String jour,
-            @PathVariable(value = "mois") String mois
+            @PathVariable(value = "mois") String mois,
+            @RequestParam(value = "distant", defaultValue = "true") String distant
     ) {
         JourId jourId = new JourId(Integer.parseInt(jour), Integer.parseInt(mois));
         Jour jourEntity = jourService.findById(jourId);
 
         model.addAttribute("jour", jourEntity);
+        model.addAttribute("distant", Boolean.parseBoolean(distant));
 
-        return "gif-distant";
+        return "gif-from";
     }
 
     @PostMapping("gif/save/form/{jour}/{mois}")
     public String addGif(
             String url,
             String legende,
+            MultipartFile file,
             @PathVariable(value = "jour") String jour,
             @PathVariable(value = "mois") String mois
     ) {
@@ -87,12 +91,21 @@ public class MainController {
         Jour jourEntity = jourService.findById(jourId);
 
         if (jourEntity.getGif() != null) {
-            throw new RuntimeException("Gif déjà ajouté");
+            throw new IllegalArgumentException("Gif déjà ajouté");
         }
 
         if (utilisateur.getSolde() < jourEntity.getPoints()) {
-            throw new RuntimeException("Solde insuffisant");
+            throw new IllegalArgumentException("Solde insuffisant");
         }
+
+        if (file != null) {
+            try {
+                url = gifService.store(file);
+            } catch (Exception e) {
+                throw new IllegalArgumentException("Erreur lors de la sauvegarde du fichier : " + e.getMessage());
+            }
+        }
+
 
         // Création du gif
         Gif gif = new Gif();
@@ -120,7 +133,7 @@ public class MainController {
         JourId jourId = new JourId(Integer.parseInt(jour), Integer.parseInt(mois));
 
         Reaction reactionEntity = reactionService.findById(Long.parseLong(reaction));
-        reactionJourService.addReactionJour(jourId, reactionEntity, utilisateur);
+        reactionJourService.addOrRemoveReactionJour(jourId, reactionEntity, utilisateur);
 
         return "redirect:/";
     }

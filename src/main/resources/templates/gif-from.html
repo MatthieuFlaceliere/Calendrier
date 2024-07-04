@@ -17,10 +17,14 @@
     <h3 class="card-title" th:text="'Placer un gif distant pour le ' + ${jour.date()}"></h3>
 
     <div class="row mt-4">
-        <form method="post" th:action="@{'/gif/save/form/' + ${jour.date()}}">
-            <div class="mb-3">
+        <form enctype="multipart/form-data" method="post" th:action="@{'/gif/save/form/' + ${jour.date()}}">
+            <div class="mb-3" th:if="${distant}">
                 <label class="form-label">URL du gif</label>
                 <input class="form-control" name="url" required type="text"/>
+            </div>
+            <div class="mb-3" th:unless="${distant}">
+                <label class="form-label">Fichier gif</label>
+                <input class="form-control" name="file" required type="file"/>
             </div>
             <div class="mb-3">
                 <label class="form-label">Légende</label>

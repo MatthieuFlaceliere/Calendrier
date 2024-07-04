@@ -19,10 +19,14 @@ public class ReactionJourServiceImpl implements ReactionJourService {
     private final ReactionJourRepository reactionJourRepository;
 
     @Override
-    public void addReactionJour(JourId jourId, Reaction reaction, Utilisateur utilisateur) {
-        ReactionJour reactionJour = new ReactionJour();
-        reactionJour.setId(new ReactionJourId(jourId, utilisateur.getId(), reaction.getId()));
-        reactionJour.setUtilisateur(utilisateur);
-        reactionJourRepository.save(reactionJour);
+    public void addOrRemoveReactionJour(JourId jourId, Reaction reaction, Utilisateur utilisateur) {
+        if (reactionJourRepository.existsById(new ReactionJourId(jourId, utilisateur.getId(), reaction.getId()))) {
+            reactionJourRepository.deleteById(new ReactionJourId(jourId, utilisateur.getId(), reaction.getId()));
+        } else {
+            ReactionJour reactionJour = new ReactionJour();
+            reactionJour.setId(new ReactionJourId(jourId, utilisateur.getId(), reaction.getId()));
+            reactionJour.setUtilisateur(utilisateur);
+            reactionJourRepository.save(reactionJour);
+        }
     }
 }

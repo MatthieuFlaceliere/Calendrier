@@ -43,7 +43,8 @@
                         <div>
                             <a class="btn btn-link pe-1" th:href="@{'/gif/save/form/' + ${jour.date}}">Ajouter un gif
                                 distant</a>
-                            <a class="btn btn-link ps-1" th:href="@{'/form/gif-local/' + ${jour.date}}">Ajouter un gif
+                            <a class="btn btn-link ps-1"
+                               th:href="@{'/gif/save/form/' + ${jour.date} + '?distant=false'}">Ajouter un gif
                                 local</a>
                         </div>
                     </div>
@@ -54,7 +55,6 @@
                 <td>
                     <div class="d-flex flex-row justify-content-center" th:if="${jour.gif != null}">
                         <a class="btn btn-outline-secondary mx-2"
-                           th:classappend="${jour.hasReactionByUser(reaction, #authentication.principal)} ? 'disabled btn-outline-success' : ''"
                            th:each="reaction:${reactions}"
                            th:href="@{'/jour/reaction/' + ${jour.date} + '/' + ${reaction.id}}"
                            th:text="${reaction.getUnicode()} + ' x ' + ${jour.getNbReactionByReaction(reaction)}"

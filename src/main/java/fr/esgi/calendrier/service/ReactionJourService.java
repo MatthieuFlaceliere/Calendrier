@@ -5,5 +5,5 @@ import fr.esgi.calendrier.business.Utilisateur;
 import fr.esgi.calendrier.business.customId.JourId;
 
 public interface ReactionJourService {
-    public void addReactionJour(JourId jourId, Reaction reaction, Utilisateur utilisateur);
+    void addOrRemoveReactionJour(JourId jourId, Reaction reaction, Utilisateur utilisateur);
 }

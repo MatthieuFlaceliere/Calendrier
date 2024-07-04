@@ -1,7 +1,6 @@
 package fr.esgi.calendrier.business;
 
 import fr.esgi.calendrier.business.customId.JourId;
-import fr.esgi.calendrier.business.customId.ReactionJourId;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -10,7 +9,6 @@ import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 @Entity
 @Data
@@ -29,10 +27,8 @@ public class Jour {
     private Utilisateur utilisateur;
 
     @OneToMany()
-    @JoinColumns({
-            @JoinColumn(name = "jour", referencedColumnName = "jour"),
-            @JoinColumn(name = "mois", referencedColumnName = "mois")
-    })
+    @JoinColumn(name = "jour", referencedColumnName = "jour")
+    @JoinColumn(name = "mois", referencedColumnName = "mois")
     private List<ReactionJour> reactions = new ArrayList<>();
 
     private int points;
@@ -63,12 +59,5 @@ public class Jour {
                 reactionJour -> usernames.add(reactionJour.getUtilisateur().nom)
         );
         return usernames;
-    }
-
-    public boolean hasReactionByUser(Reaction reaction, Utilisateur utilisateur) {
-        boolean r = reactions.stream().anyMatch(
-                reactionJour -> reactionJour.getId().getReactionId().equals(reaction.getId()) && reactionJour.getId().getUtilisateurId().equals(utilisateur.getId())
-        );
-        return r;
     }
 }

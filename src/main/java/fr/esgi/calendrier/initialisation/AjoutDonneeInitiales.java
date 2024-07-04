@@ -19,46 +19,35 @@ public class AjoutDonneeInitiales implements CommandLineRunner {
     private final ReactionService reactionService;
     private final GifService gifService;
     private final UtilisateurService utilisateurService;
-    private final ReactionJourService reactionJourService;
 
     private final Random random = new Random();
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
         ajoutGif();
         ajoutDesReactions();
         ajoutDesJours();
         ajoutUtilisateurParDefaut();
+        deleteAllUploadingGif();
+    }
 
-//        Utilisateur utilisateur = utilisateurService.findByEmail("demo@demo.com");
-//        Gif gif = gifService.findById(1L);
-//
-//        JourId jourId = new JourId(1, 1);
-//        Jour jour = new Jour();
-//        jour.setId(jourId);
-//        jour.setGif(gif);
-//        jour.setUtilisateur(utilisateur);
-//        jour.setPoints(100);
-//        jourService.save(jour);
-//
-//        Reaction reaction = reactionService.findById(1L);
-//        reactionJourService.addReactionJour(jourId, reaction, utilisateur);
+    private int getMonthDays(int month) {
+        if (month == 1) {
+            // Février
+            return 28;
+        } else if (month == 3 || month == 5 || month == 8 || month == 10) {
+            // Avril, Juin, Septembre, Novembre
+            return 30;
+        } else {
+            // Janvier, Mars, Mai, Juillet, Août, Octobre, Décembre
+            return 31;
+        }
     }
 
     private void ajoutDesJours() {
         int mois = new Date().getMonth();
 
-        int nombreDeJours = 31;
-        if (mois == 1) {
-            // Février
-            nombreDeJours = 28;
-        } else if (mois == 3 || mois == 5 || mois == 8 || mois == 10) {
-            // Avril, Juin, Septembre, Novembre
-            nombreDeJours = 30;
-        }
-
-
-        for (int i = 1; i <= 31; i++) {
+        for (int i = 1; i <= getMonthDays(mois); i++) {
             JourId jourId = new JourId(i, mois);
             int point = random.nextInt(100);
             Jour jour = new Jour(jourId, null, null, null, point);
@@ -93,5 +82,13 @@ public class AjoutDonneeInitiales implements CommandLineRunner {
         utilisateur.setMotDePasse("demo1234");
         utilisateur.setEmail("demo@demo.com");
         utilisateurService.save(utilisateur);
+    }
+
+    private void deleteAllUploadingGif() {
+        try {
+            gifService.deleteAllUploadingGif();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
