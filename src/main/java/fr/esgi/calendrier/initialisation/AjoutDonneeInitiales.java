@@ -50,7 +50,7 @@ public class AjoutDonneeInitiales implements CommandLineRunner {
         for (int i = 1; i <= getMonthDays(mois); i++) {
             JourId jourId = new JourId(i, mois);
             int point = random.nextInt(100);
-            Jour jour = new Jour(jourId, null, null, null, point);
+            Jour jour = new Jour(jourId, point);
             jourService.save(jour);
         }
     }
@@ -81,6 +81,7 @@ public class AjoutDonneeInitiales implements CommandLineRunner {
         utilisateur.setPrenom("demo");
         utilisateur.setMotDePasse("demo1234");
         utilisateur.setEmail("demo@demo.com");
+        utilisateur.setTheme("light");
         utilisateurService.save(utilisateur);
     }
 

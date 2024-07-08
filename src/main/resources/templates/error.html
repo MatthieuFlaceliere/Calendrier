@@ -14,7 +14,7 @@
     <link rel="icon" sizes="32x32" th:href="@{/favicon/favicon-32x32.png}" type="image/png">
     <link rel="icon" sizes="16x16" th:href="@{/favicon/favicon-16x16.png}" type="image/png">
 </head>
-<body>
+<body th:attr="data-bs-theme=${#authentication.principal.theme}">
 <div class="container">
     <div class="row">
         <div class="col-md-12 d-flex justify-content-center text-center">

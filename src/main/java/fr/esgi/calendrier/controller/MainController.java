@@ -10,6 +10,7 @@ import fr.esgi.calendrier.mapper.UtilisateurMapper;
 import fr.esgi.calendrier.service.*;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -19,6 +20,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.Iterator;
 
 @Controller
 @AllArgsConstructor
@@ -55,8 +58,23 @@ public class MainController {
             Model model,
             @PageableDefault(size = 7) Pageable pageable
     ) {
+
         model.addAttribute("jours", jourService.findAll(pageable));
         model.addAttribute("reactions", reactionService.findAll());
+
+        Iterator<Sort.Order> iterator = pageable.getSort().iterator();
+        StringBuilder sortBuilder = new StringBuilder();
+        while (iterator.hasNext()) {
+            Sort.Order order = iterator.next();
+            sortBuilder.append(order.getProperty());
+            sortBuilder.append(',');
+            sortBuilder.append(order.getDirection());
+            if (iterator.hasNext()) {
+                // Bricodage
+                sortBuilder.append("&sort=");
+            }
+        }
+        model.addAttribute("sort", sortBuilder.toString());
 
         return "index";
     }

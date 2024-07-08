@@ -3,9 +3,7 @@ package fr.esgi.calendrier.business;
 import fr.esgi.calendrier.business.customId.JourId;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,9 +11,10 @@ import java.util.List;
 @Entity
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class Jour {
     @EmbeddedId
+    @NonNull
     private JourId id;
 
     @OneToOne()
@@ -31,6 +30,7 @@ public class Jour {
     @JoinColumn(name = "mois", referencedColumnName = "mois")
     private List<ReactionJour> reactions = new ArrayList<>();
 
+    @NonNull
     private int points;
 
     public String date() {
@@ -59,5 +59,9 @@ public class Jour {
                 reactionJour -> usernames.add(reactionJour.getUtilisateur().nom)
         );
         return usernames;
+    }
+
+    public int getNbReactions() {
+        return reactions.size();
     }
 }

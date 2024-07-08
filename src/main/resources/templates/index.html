@@ -12,7 +12,7 @@
     <link rel="icon" sizes="32x32" th:href="@{/favicon/favicon-32x32.png}" type="image/png">
     <link rel="icon" sizes="16x16" th:href="@{/favicon/favicon-16x16.png}" type="image/png">
 </head>
-<body>
+<body th:attr="data-bs-theme=${#authentication.principal.theme}">
 <div class="container mt-5">
     <h3 class="card-title">📅 Calendrier</h3>
     <h3 class="card-title">
@@ -24,10 +24,22 @@
         <table class="table table-striped table-bordered text-center">
             <thead>
             <tr>
-                <th scope="col">Jour</th>
-                <th scope="col">Gif</th>
-                <th scope="col">Utilisateur</th>
-                <th scope="col">Réaction(s)</th>
+                <th scope="col" th:onclick="sortTable(0)">Jour
+                    <span th:if="${sort == 'id,ASC'}">▲</span>
+                    <span th:if="${sort == 'id,DESC'}">▼</span>
+                </th>
+                <th scope="col" th:onclick="sortTable(1)">Gif
+                    <span th:if="${sort == 'gif,ASC'}">▲</span>
+                    <span th:if="${sort == 'gif,DESC'}">▼</span>
+                </th>
+                <th scope="col" th:onclick="sortTable(2)">Utilisateur
+                    <span th:if="${sort == 'utilisateur,ASC'}">▲</span>
+                    <span th:if="${sort == 'utilisateur,DESC'}">▼</span>
+                </th>
+                <th scope="col" th:onclick="sortTable(3)">Réactions
+                    <span th:if="${sort == 'reactions,ASC'}">▲</span>
+                    <span th:if="${sort == 'reactions,DESC'}">▼</span>
+                </th>
             </tr>
             </thead>
             <tbody>
@@ -67,20 +79,42 @@
         <nav>
             <ul class="pagination d-flex justify-content-center">
                 <li class="page-item">
-                    <a class="page-link" th:href="@{'?page=0'}">Première page</a>
+                    <a class="page-link" th:href="@{'?page=0&sort=' + ${sort}}">Première page</a>
                 </li>
                 <li class="page-item" th:if="${jours.getNumber() > 0}">
-                    <a class="page-link" th:href="@{'?page=' + ${jours.getNumber()-1} }">Page précédente</a>
+                    <a class="page-link" th:href="@{'?page=' + ${jours.getNumber()-1} + '&sort=' + ${sort}} ">Page
+                        précédente</a>
                 </li>
                 <li class="page-item" th:if="${jours.getNumber() < jours.getTotalPages()-1}">
-                    <a class="page-link" th:href="@{'?page=' + ${jours.getNumber()+1} }">Page suivante</a>
+                    <a class="page-link" th:href="@{'?page=' + ${jours.getNumber()+1} + '&sort=' + ${sort}}">Page
+                        suivante</a>
                 </li>
                 <li class="page-item">
-                    <a class="page-link" th:href="@{'?page=' + ${jours.getTotalPages() -1 }}">Dernière page</a>
+                    <a class="page-link" th:href="@{'?page=' + ${jours.getTotalPages() -1 } + '&sort=' + ${sort}}">Dernière
+                        page</a>
                 </li>
             </ul>
         </nav>
     </div>
 </div>
 </body>
+<script lang="javascript">
+    function sortTable(n) {
+        const asc = window.location.href.includes(",asc");
+        switch (n) {
+            case 0:
+                window.location.href = "/?sort=id" + (asc ? ",desc" : ",asc");
+                break;
+            case 1:
+                window.location.href = "/?sort=gif" + (asc ? ",desc" : ",asc");
+                break;
+            case 2:
+                window.location.href = "/?sort=utilisateur" + (asc ? ",desc" : ",asc");
+                break;
+            case 3:
+                window.location.href = "/?sort=reactions" + (asc ? ",desc" : ",asc");
+                break;
+        }
+    }
+</script>
 </html>
