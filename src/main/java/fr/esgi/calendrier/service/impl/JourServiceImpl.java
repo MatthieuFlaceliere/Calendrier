@@ -41,4 +41,9 @@ public class JourServiceImpl implements JourService {
     public Jour findById(JourId id) {
         return this.jourRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Jour not found"));
     }
+
+    @Override
+    public void delete(Jour jour) {
+        this.jourRepository.delete(jour);
+    }
 }

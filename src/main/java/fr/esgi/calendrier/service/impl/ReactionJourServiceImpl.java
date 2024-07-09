@@ -26,6 +26,7 @@ public class ReactionJourServiceImpl implements ReactionJourService {
             ReactionJour reactionJour = new ReactionJour();
             reactionJour.setId(new ReactionJourId(jourId, utilisateur.getId(), reaction.getId()));
             reactionJour.setUtilisateur(utilisateur);
+            reactionJour.setReaction(reaction);
             reactionJourRepository.save(reactionJour);
         }
     }

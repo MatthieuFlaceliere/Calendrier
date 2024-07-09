@@ -19,4 +19,9 @@ public class ReactionJour {
     @ManyToOne
     @JoinColumn(name = "utilisateur_id", insertable = false, updatable = false)
     private Utilisateur utilisateur;
+
+    @MapsId("reactionId")
+    @ManyToOne
+    @JoinColumn(name = "reaction_id", insertable = false, updatable = false)
+    private Reaction reaction;
 }

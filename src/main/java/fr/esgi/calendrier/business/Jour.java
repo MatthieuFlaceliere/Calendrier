@@ -1,5 +1,6 @@
 package fr.esgi.calendrier.business;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import fr.esgi.calendrier.business.customId.JourId;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
@@ -20,7 +21,7 @@ public class Jour {
     @OneToOne()
     @Nullable()
     private Gif gif;
-
+    
     @ManyToOne()
     @Nullable()
     private Utilisateur utilisateur;

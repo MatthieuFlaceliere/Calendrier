@@ -1,19 +1,37 @@
 package fr.esgi.calendrier.controller;
 
-import org.springframework.boot.web.servlet.error.ErrorController;
+import fr.esgi.calendrier.business.Utilisateur;
+import fr.esgi.calendrier.service.UtilisateurService;
+import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
 
 @ControllerAdvice
-public class ErreurController implements ErrorController {
+@RequiredArgsConstructor
+public class ErreurController {
+
+    private final UtilisateurService utilisateurService;
+
+    Logger logger = LoggerFactory.getLogger(ErreurController.class);
 
     @ExceptionHandler(Exception.class)
-    public ModelAndView handleOtherExceptions(Exception ex) {
+    public ModelAndView handleAllExceptions(Exception ex) {
         ModelAndView modelAndView = new ModelAndView();
-        System.out.println("Erreur: " + ex);
+        logger.warn("Une erreur est survenue: {}", ex.getMessage());
         modelAndView.addObject("errorMessage", "Une erreur est survenue: " + ex.getMessage());
         modelAndView.setViewName("error");
+
+        try {
+            Utilisateur currentUser = utilisateurService.utilisateurFromSecurityContext(SecurityContextHolder.getContext());
+            modelAndView.addObject("theme", currentUser.getTheme());
+        } catch (Exception e) {
+            modelAndView.addObject("theme", "light");
+        }
+
         return modelAndView;
     }
 }

@@ -1,32 +1,28 @@
 package fr.esgi.calendrier.dto;
 
-import jakarta.validation.constraints.NotEmpty;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@Value
 public class UtilisateurDto {
-    @NotNull
-    @NotEmpty
-    private String nom;
+
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    Long id;
 
     @NotNull
-    @NotEmpty
-    private String prenom;
+    String nom;
 
     @NotNull
-    @NotEmpty
-    private String email;
+    String prenom;
 
     @NotNull
-    @NotEmpty
-    private String motDePasse;
+    String email;
 
     @NotNull
-    @NotEmpty
-    private String theme;
+    String password;
+    
+    @NotNull
+    String theme;
 }

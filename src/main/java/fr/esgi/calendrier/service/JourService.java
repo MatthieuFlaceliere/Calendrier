@@ -8,11 +8,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface JourService {
-    public void save(Jour jour);
+    void save(Jour jour);
 
-    public void setGif(JourId id, Gif gif, Utilisateur utilisateur);
+    void setGif(JourId id, Gif gif, Utilisateur utilisateur);
 
-    public Page<Jour> findAll(Pageable pageable);
+    Page<Jour> findAll(Pageable pageable);
 
-    public Jour findById(JourId id);
+    Jour findById(JourId id);
+
+    void delete(Jour jour);
 }

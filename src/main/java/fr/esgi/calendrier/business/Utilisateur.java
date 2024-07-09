@@ -1,10 +1,10 @@
 package fr.esgi.calendrier.business;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
+import jakarta.validation.constraints.Pattern;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -22,31 +22,36 @@ public class Utilisateur implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
 
+    @NonNull
     protected String nom;
 
+    @NonNull
     protected String prenom;
 
     @Column(unique = true)
+    @Pattern(regexp = "^[a-zA-Z0-9._%+-]+@esgi.fr", message = "L'email doit être valide et se terminer par @esgi.fr")
+    @NonNull
     protected String email;
 
-    protected String motDePasse;
+    @ToString.Exclude
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @NonNull
+    protected String password;
 
     @NonNull
     protected String theme;
 
+    @NonNull
     protected int solde;
 
+    @ToString.Exclude
+    @JsonIgnore
     @OneToMany(mappedBy = "utilisateur")
     private List<Jour> jours = new ArrayList<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of();
-    }
-
-    @Override
-    public String getPassword() {
-        return this.motDePasse;
     }
 
     @Override

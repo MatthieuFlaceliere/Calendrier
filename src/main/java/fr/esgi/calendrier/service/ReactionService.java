@@ -5,9 +5,9 @@ import fr.esgi.calendrier.business.Reaction;
 import java.util.List;
 
 public interface ReactionService {
-    public void save(Reaction reaction);
+    void save(Reaction reaction);
 
-    public Reaction findById(Long id);
+    Reaction findById(Long id);
 
-    public List<Reaction> findAll();
+    List<Reaction> findAll();
 }

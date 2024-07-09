@@ -5,6 +5,7 @@ import fr.esgi.calendrier.business.customId.JourId;
 import fr.esgi.calendrier.service.*;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -13,6 +14,7 @@ import java.util.Random;
 
 @Component
 @AllArgsConstructor
+@Profile("!test")
 public class AjoutDonneeInitiales implements CommandLineRunner {
 
     private final JourService jourService;
@@ -24,7 +26,6 @@ public class AjoutDonneeInitiales implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        ajoutGif();
         ajoutDesReactions();
         ajoutDesJours();
         ajoutUtilisateurParDefaut();
@@ -69,18 +70,12 @@ public class AjoutDonneeInitiales implements CommandLineRunner {
         }
     }
 
-    private void ajoutGif() {
-        Gif gif = new Gif();
-        gif.setUrl("https://c.tenor.com/sesbpnZ42swAAAAC/tenor.gif");
-        gifService.save(gif);
-    }
-
     private void ajoutUtilisateurParDefaut() {
         Utilisateur utilisateur = new Utilisateur();
         utilisateur.setNom("demo");
         utilisateur.setPrenom("demo");
-        utilisateur.setMotDePasse("demo1234");
-        utilisateur.setEmail("demo@demo.com");
+        utilisateur.setPassword("demo1234");
+        utilisateur.setEmail("demo@esgi.fr");
         utilisateur.setTheme("light");
         utilisateurService.save(utilisateur);
     }

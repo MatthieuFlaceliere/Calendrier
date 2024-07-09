@@ -36,9 +36,7 @@ public class MainController {
     private final ReactionJourService reactionJourService;
 
     @GetMapping("/register")
-    public String showRegistrationForm(Model model) {
-        UtilisateurDto utilisateurDto = new UtilisateurDto();
-        model.addAttribute("utilisateur", utilisateurDto);
+    public String showRegistrationForm() {
         return "register";
     }
 
