@@ -6,6 +6,7 @@ import fr.esgi.calendrier.mapper.UtilisateurMapper;
 import fr.esgi.calendrier.service.UtilisateurService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -37,7 +38,7 @@ public class UtilisateurRestController {
     @Operation(summary = "Create a new utilisateur", responses = {@ApiResponse(responseCode = "201", description = "Ajout ok")})
     @ResponseStatus(code = HttpStatus.CREATED)
     public void createUtilisateur(
-            @RequestBody UtilisateurDto utilisateur
+            @Valid @RequestBody UtilisateurDto utilisateur
     ) {
         utilisateurService.save(utilisateurMapper.toEntity(utilisateur));
     }
@@ -46,7 +47,7 @@ public class UtilisateurRestController {
     @Operation(summary = "Update utilisateur by id")
     public void updateUtilisateur(
             @PathVariable Long id,
-            @RequestBody UtilisateurDto utilisateur
+            @Valid @RequestBody UtilisateurDto utilisateur
     ) {
         Utilisateur utilisateurToUpdate = utilisateurService.findById(id);
         utilisateurToUpdate.setNom(utilisateur.getNom());

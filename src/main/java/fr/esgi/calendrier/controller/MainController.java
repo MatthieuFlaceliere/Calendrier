@@ -6,8 +6,10 @@ import fr.esgi.calendrier.business.TypeReaction;
 import fr.esgi.calendrier.business.Utilisateur;
 import fr.esgi.calendrier.business.customId.JourId;
 import fr.esgi.calendrier.dto.UtilisateurDto;
+import fr.esgi.calendrier.mapper.GifMapper;
 import fr.esgi.calendrier.mapper.UtilisateurMapper;
 import fr.esgi.calendrier.service.*;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -15,10 +17,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Iterator;
@@ -32,6 +31,7 @@ public class MainController {
 
     private final JourService jourService;
     private final GifService gifService;
+    private final GifMapper gifMapper;
     private final TypeReactionService typeReactionService;
     private final ReactionJourService reactionJourService;
 
@@ -41,7 +41,7 @@ public class MainController {
     }
 
     @PostMapping("/register")
-    public String registration(UtilisateurDto utilisateurDto) {
+    public String registration(@Valid UtilisateurDto utilisateurDto) {
         utilisateurService.save(utilisateurMapper.toEntity(utilisateurDto));
         return "redirect:/register?success";
     }
@@ -121,7 +121,6 @@ public class MainController {
                 throw new IllegalArgumentException("Erreur lors de la sauvegarde du fichier : " + e.getMessage());
             }
         }
-
 
         // Création du gif
         Gif gif = new Gif();

@@ -6,6 +6,7 @@ import fr.esgi.calendrier.mapper.GifMapper;
 import fr.esgi.calendrier.service.GifService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -36,7 +37,7 @@ public class GifRestController {
     @PostMapping("")
     @Operation(summary = "Create a new gif", responses = {@ApiResponse(responseCode = "201", description = "Ajout ok")})
     @ResponseStatus(code = HttpStatus.CREATED)
-    public void createGif(@RequestBody GifDto gifDto) {
+    public void createGif(@Valid @RequestBody GifDto gifDto) {
         gifService.save(gifMapper.toEntity(gifDto));
     }
 

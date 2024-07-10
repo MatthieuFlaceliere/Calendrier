@@ -3,7 +3,6 @@ package fr.esgi.calendrier.business;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Pattern;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -29,7 +28,6 @@ public class Utilisateur implements UserDetails {
     protected String prenom;
 
     @Column(unique = true)
-    @Pattern(regexp = "^[a-zA-Z0-9._%+-]+@esgi.fr", message = "L'email doit être valide et se terminer par @esgi.fr")
     @NonNull
     protected String email;
 
@@ -41,7 +39,6 @@ public class Utilisateur implements UserDetails {
     @NonNull
     protected String theme;
 
-    @NonNull
     protected int solde;
 
     @ToString.Exclude
