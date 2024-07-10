@@ -1,4 +1,4 @@
-package fr.esgi.calendrier.controller.REST;
+package fr.esgi.calendrier.controller.rest;
 
 import fr.esgi.calendrier.business.Utilisateur;
 import fr.esgi.calendrier.dto.UtilisateurDto;
@@ -90,8 +90,9 @@ class UtilisateurRestControllerUnitTest {
                                  {
                                    "nom":"John",
                                    "prenom":"Doe",
-                                   "email":"john.doe@example.com",
-                                   "theme":"dark"
+                                   "email":"john.doe@esgi.fr",
+                                   "theme":"dark",
+                                   "password":"password"
                                  }
                                 """))
                 // Vérifie que le statut de la réponse est 201 Created
@@ -113,8 +114,9 @@ class UtilisateurRestControllerUnitTest {
                                   {
                                     "nom":"John",
                                     "prenom":"Doe",
-                                    "email":"john.doe@example.com",
-                                    "theme":"dark"
+                                    "email":"john.doe@esgi.fr",
+                                    "theme":"dark",
+                                    "password":"password"
                                   }
                                 """))
                 .andExpect(status().isOk());

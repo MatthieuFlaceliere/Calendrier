@@ -1,4 +1,4 @@
-package fr.esgi.calendrier.controller.REST;
+package fr.esgi.calendrier.controller.rest;
 
 import fr.esgi.calendrier.business.Jour;
 import fr.esgi.calendrier.business.customId.JourId;
