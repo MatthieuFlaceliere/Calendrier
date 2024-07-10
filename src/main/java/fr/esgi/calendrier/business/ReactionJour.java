@@ -23,5 +23,5 @@ public class ReactionJour {
     @MapsId("reactionId")
     @ManyToOne
     @JoinColumn(name = "reaction_id", insertable = false, updatable = false)
-    private Reaction reaction;
+    private TypeReaction typeReaction;
 }

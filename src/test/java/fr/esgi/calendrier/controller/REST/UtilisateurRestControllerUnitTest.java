@@ -86,7 +86,14 @@ class UtilisateurRestControllerUnitTest {
         // Effectue une requête POST sur l'endpoint /api/utilisateurs avec un contenu JSON
         mvc.perform(post("/api/utilisateurs")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"nom\":\"John\", \"prenom\":\"Doe\", \"email\":\"john.doe@example.com\"}"))
+                        .content("""
+                                 {
+                                   "nom":"John",
+                                   "prenom":"Doe",
+                                   "email":"john.doe@example.com",
+                                   "theme":"dark"
+                                 }
+                                """))
                 // Vérifie que le statut de la réponse est 201 Created
                 .andExpect(status().isCreated());
 
@@ -102,7 +109,14 @@ class UtilisateurRestControllerUnitTest {
 
         mvc.perform(put("/api/utilisateurs/1")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"nom\":\"John\", \"prenom\":\"Doe\", \"email\":\"john.doe@example.com\"}"))
+                        .content("""
+                                  {
+                                    "nom":"John",
+                                    "prenom":"Doe",
+                                    "email":"john.doe@example.com",
+                                    "theme":"dark"
+                                  }
+                                """))
                 .andExpect(status().isOk());
 
         verify(utilisateurService, times(1)).findById(anyLong());

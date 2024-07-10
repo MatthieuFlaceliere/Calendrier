@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Reaction {
+public class TypeReaction {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "reaction_sequence")
     @SequenceGenerator(name = "reaction_sequence")

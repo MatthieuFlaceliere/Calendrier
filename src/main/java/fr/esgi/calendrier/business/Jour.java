@@ -1,6 +1,5 @@
 package fr.esgi.calendrier.business;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import fr.esgi.calendrier.business.customId.JourId;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
@@ -21,7 +20,7 @@ public class Jour {
     @OneToOne()
     @Nullable()
     private Gif gif;
-    
+
     @ManyToOne()
     @Nullable()
     private Utilisateur utilisateur;
@@ -48,14 +47,14 @@ public class Jour {
         return jour + "/" + mois;
     }
 
-    public int getNbReactionByReaction(Reaction reaction) {
-        return (int) reactions.stream().filter(reactionJour -> reactionJour.getId().getReactionId().equals(reaction.getId())).count();
+    public int getNbReactionByReaction(TypeReaction typeReaction) {
+        return (int) reactions.stream().filter(reactionJour -> reactionJour.getId().getReactionId().equals(typeReaction.getId())).count();
     }
 
-    public List<String> getUsernamesByReaction(Reaction reaction) {
+    public List<String> getUsernamesByReaction(TypeReaction typeReaction) {
         List<String> usernames = new ArrayList<>();
         reactions.stream().filter(
-                reactionJour -> reactionJour.getId().getReactionId().equals(reaction.getId())
+                reactionJour -> reactionJour.getId().getReactionId().equals(typeReaction.getId())
         ).forEach(
                 reactionJour -> usernames.add(reactionJour.getUtilisateur().nom)
         );

@@ -2,7 +2,7 @@ package fr.esgi.calendrier.controller;
 
 import fr.esgi.calendrier.business.Gif;
 import fr.esgi.calendrier.business.Jour;
-import fr.esgi.calendrier.business.Reaction;
+import fr.esgi.calendrier.business.TypeReaction;
 import fr.esgi.calendrier.business.Utilisateur;
 import fr.esgi.calendrier.business.customId.JourId;
 import fr.esgi.calendrier.dto.UtilisateurDto;
@@ -32,7 +32,7 @@ public class MainController {
 
     private final JourService jourService;
     private final GifService gifService;
-    private final ReactionService reactionService;
+    private final TypeReactionService typeReactionService;
     private final ReactionJourService reactionJourService;
 
     @GetMapping("/register")
@@ -58,7 +58,7 @@ public class MainController {
     ) {
 
         model.addAttribute("jours", jourService.findAll(pageable));
-        model.addAttribute("reactions", reactionService.findAll());
+        model.addAttribute("typeReactions", typeReactionService.findAll());
 
         Iterator<Sort.Order> iterator = pageable.getSort().iterator();
         StringBuilder sortBuilder = new StringBuilder();
@@ -148,8 +148,8 @@ public class MainController {
 
         JourId jourId = new JourId(Integer.parseInt(jour), Integer.parseInt(mois));
 
-        Reaction reactionEntity = reactionService.findById(Long.parseLong(reaction));
-        reactionJourService.addOrRemoveReactionJour(jourId, reactionEntity, utilisateur);
+        TypeReaction typeReactionEntity = typeReactionService.findById(Long.parseLong(reaction));
+        reactionJourService.addOrRemoveReactionJour(jourId, typeReactionEntity, utilisateur);
 
         return "redirect:/";
     }

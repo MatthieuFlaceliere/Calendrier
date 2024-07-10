@@ -67,10 +67,10 @@
                 <td>
                     <div class="d-flex flex-row justify-content-center" th:if="${jour.gif != null}">
                         <a class="btn btn-outline-secondary mx-2"
-                           th:each="reaction:${reactions}"
-                           th:href="@{'/jour/reaction/' + ${jour.date} + '/' + ${reaction.id}}"
-                           th:text="${reaction.getUnicode()} + ' x ' + ${jour.getNbReactionByReaction(reaction)}"
-                           th:title="${jour.getUsernamesByReaction(reaction)}"></a>
+                           th:each="typeReaction:${typeReactions}"
+                           th:href="@{'/jour/reaction/' + ${jour.date} + '/' + ${typeReaction.id}}"
+                           th:text="${typeReaction.getUnicode()} + ' x ' + ${jour.getNbReactionByReaction(typeReaction)}"
+                           th:title="${jour.getUsernamesByReaction(typeReaction)}"></a>
                     </div>
                 </td>
             </tr>

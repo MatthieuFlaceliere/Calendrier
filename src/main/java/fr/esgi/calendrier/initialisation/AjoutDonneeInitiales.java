@@ -18,7 +18,7 @@ import java.util.Random;
 public class AjoutDonneeInitiales implements CommandLineRunner {
 
     private final JourService jourService;
-    private final ReactionService reactionService;
+    private final TypeReactionService typeReactionService;
     private final GifService gifService;
     private final UtilisateurService utilisateurService;
 
@@ -64,9 +64,9 @@ public class AjoutDonneeInitiales implements CommandLineRunner {
         emojis.add("\uD83D\uDE21"); // 😡
 
         for (String emoji : emojis) {
-            Reaction reaction = new Reaction();
-            reaction.setUnicode(emoji);
-            reactionService.save(reaction);
+            TypeReaction typeReaction = new TypeReaction();
+            typeReaction.setUnicode(emoji);
+            typeReactionService.save(typeReaction);
         }
     }
 

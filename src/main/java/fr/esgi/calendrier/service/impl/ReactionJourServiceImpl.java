@@ -1,6 +1,6 @@
 package fr.esgi.calendrier.service.impl;
 
-import fr.esgi.calendrier.business.Reaction;
+import fr.esgi.calendrier.business.TypeReaction;
 import fr.esgi.calendrier.business.ReactionJour;
 import fr.esgi.calendrier.business.Utilisateur;
 import fr.esgi.calendrier.business.customId.JourId;
@@ -19,14 +19,14 @@ public class ReactionJourServiceImpl implements ReactionJourService {
     private final ReactionJourRepository reactionJourRepository;
 
     @Override
-    public void addOrRemoveReactionJour(JourId jourId, Reaction reaction, Utilisateur utilisateur) {
-        if (reactionJourRepository.existsById(new ReactionJourId(jourId, utilisateur.getId(), reaction.getId()))) {
-            reactionJourRepository.deleteById(new ReactionJourId(jourId, utilisateur.getId(), reaction.getId()));
+    public void addOrRemoveReactionJour(JourId jourId, TypeReaction typeReaction, Utilisateur utilisateur) {
+        if (reactionJourRepository.existsById(new ReactionJourId(jourId, utilisateur.getId(), typeReaction.getId()))) {
+            reactionJourRepository.deleteById(new ReactionJourId(jourId, utilisateur.getId(), typeReaction.getId()));
         } else {
             ReactionJour reactionJour = new ReactionJour();
-            reactionJour.setId(new ReactionJourId(jourId, utilisateur.getId(), reaction.getId()));
+            reactionJour.setId(new ReactionJourId(jourId, utilisateur.getId(), typeReaction.getId()));
             reactionJour.setUtilisateur(utilisateur);
-            reactionJour.setReaction(reaction);
+            reactionJour.setTypeReaction(typeReaction);
             reactionJourRepository.save(reactionJour);
         }
     }
