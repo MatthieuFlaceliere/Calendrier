@@ -1,9 +1,8 @@
-package fr.esgi.calendrier.controller.REST;
+package fr.esgi.calendrier.controller.rest;
 
 import fr.esgi.calendrier.business.error.ErrorMessage;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.ConstraintViolationException;
-import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.annotation.Order;
